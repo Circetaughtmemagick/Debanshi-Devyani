@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #3498db;
+    }
+
+    .game-container {
+      text-align: center;
+      background-color: #ecf0f1;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #3498db;
+    }
+
+    p {
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .entry-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .box {
+      width: 100px;
+      height: 60px;
+      border: 1px solid #555;
+      background-color: #ecf0f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input {
+      width: 80%;
+      height: 80%;
+      border: none;
+      background-color: transparent;
+      text-align: center;
+      margin: 5px;
+    }
+
+    button {
+      font-size: 1.5em;
+      margin: 10px;
+      padding: 15px 30px;
+      cursor: pointer;
+      background-color: #2ecc71;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #27ae60;
+    }
+
+    #result {
+      margin-top: 20px;
+      color: #27ae60;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  </style>
+  <title>Grounding Exercise</title>
+</head>
+<body>
+  <div class="game-container">
+    <h1>5-4-3-2-1 Grounding Exercise</h1>
+    <p>Click on each number to open spaces for inputs:</p>
+    <div class="entry-box" id="entryBox5"></div>
+    <div class="entry-box" id="entryBox4"></div>
+    <div class="entry-box" id="entryBox3"></div>
+    <div class="entry-box" id="entryBox2"></div>
+    <div class="entry-box" id="entryBox1"></div>
+    <button onclick="openSpaces(5)">5</button>
+    <button onclick="openSpaces(4)">4</button>
+    <button onclick="openSpaces(3)">3</button>
+    <button onclick="openSpaces(2)">2</button>
+    <button onclick="openSpaces(1)">1</button>
+    <button onclick="handleClick()">Submit</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const steps = [
+      "things you can see",
+      "things you can touch",
+      "things you can hear",
+      "things you can smell",
+      "things you can taste"
+    ];
+
+    function openSpaces(step) {
+      const entryBox = document.getElementById(`entryBox${step}`);
+      entryBox.innerHTML = '';
+      for (let i = 0; i < step; i++) {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('placeholder', `Enter ${step - i} ${steps[i]}`);
+        entryBox.appendChild(input);
+      }
+    }
+
+    function handleClick() {
+      const resultElement = document.getElementById('result');
+      const inputBoxes = document.querySelectorAll('.entry-box input');
+      let resultMessage = 'Good job, keep going!';
+
+      for (let i = 0; i < inputBoxes.length; i++) {
+        const inputValue = inputBoxes[i].value.trim();
+        if (inputValue === '') {
+          resultMessage = 'Please fill in all the boxes.';
+          break;
+        }
+        resultMessage += `\n${inputValue} ${steps[i]}`;
+      }
+
+      
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic Ball Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        #instructions {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        #sequence-display {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #27ae60;
+        }
+
+        #input-box {
+            font-size: 16px;
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 200px;
+        }
+
+        #result {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #e74c3c;
+        }
+
+        #error-message {
+            color: #e74c3c;
+            margin-top: 10px;
+        }
+
+        #timer {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>Welcome to Logic Ball Game!</h1>
+    <p id="instructions">Instructions: Memorize the sequence and recall it.</p>
+    <div id="sequence-display"></div>
+    <input type="text" id="input-box" placeholder="Type your answer">
+    <button onclick="checkAnswer()">Submit</button>
+    <p id="result"></p>
+    <p id="error-message"></p>
+    <div id="timer">Time remaining: <span id="countdown">10</span> seconds</div>
+</div>
+
+<script>
+    let sequence = [];
+    let score = 0;
+    let sequenceLength = 3;
+    let countdownValue = 10;
+    let countdownInterval;
+
+    function displayInstructions() {
+        document.getElementById('instructions').innerText = "Instructions: Memorize the sequence and recall it.";
+    }
+
+    function generateSequence(length) {
+        return Array.from({ length }, () => Math.floor(Math.random() * 9) + 1);
+    }
+
+    function displaySequence() {
+        const sequenceDisplay = document.getElementById('sequence-display');
+        sequenceDisplay.innerHTML = "Memorize this sequence: " + sequence.join(', ');
+
+        // Set a timer to clear the sequence display after 10 seconds
+        setTimeout(() => {
+            sequenceDisplay.innerHTML = "";
+        }, 10000);
+    }
+
+    function checkAnswer() {
+        const userInput = document.getElementById('input-box').value.trim();
+        const userNumbers = userInput.split(',').map(num => parseInt(num, 10));
+
+        if (validateUserInput(userNumbers)) {
+            if (arraysEqual(userNumbers, sequence)) {
+                document.getElementById('result').innerText = "Correct! You remembered the sequence.";
+                score++;
+                sequenceLength++;
+                startNewRound();
+            } else {
+                document.getElementById('result').innerText = "Incorrect. The correct sequence was: " + sequence.join(', ');
+            }
+            clearError();
+        } else {
+            displayError("Please enter valid numbers separated by commas.");
+        }
+    }
+
+    function validateUserInput(userNumbers) {
+        return userNumbers.length === sequence.length && userNumbers.every(num => !isNaN(num) && num >= 1 && num <= 9);
+    }
+
+    function startNewRound() {
+        sequence = generateSequence(sequenceLength);
+        displaySequence();
+        document.getElementById('input-box').value = "";
+        document.getElementById('result').innerText = "";
+        clearError();
+        startCountdown();
+    }
+
+    function startCountdown() {
+        countdownValue = 10;
+        updateCountdown();
+        countdownInterval = setInterval(() => {
+            countdownValue--;
+            updateCountdown();
+            if (countdownValue === 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+    }
+
+    function updateCountdown() {
+        document.getElementById('countdown').innerText = countdownValue;
+    }
+
+    function arraysEqual(arr1, arr2) {
+        return arr1.length === arr2.length && arr1.every((value, index) => value === arr2[index]);
+    }
+
+    function displayError(message) {
+        document.getElementById('error-message').innerText = message;
+    }
+
+    function clearError() {
+        document.getElementById('error-message').innerText = "";
+    }
+
+    window.onload = function () {
+        displayInstructions();
+        startNewRound();
+    };
+</script>
+
+</body>
+</html>
+
+
+

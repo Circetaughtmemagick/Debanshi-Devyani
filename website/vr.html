@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VR OCD Therapy</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body>
+  <a-scene>
+    <!-- Sky -->
+    <a-sky color="#87CEEB"></a-sky>
+
+    <!-- Ground -->
+    <a-plane rotation="-90 0 0" width="20" height="20" color="#7CFC00"></a-plane>
+
+    <!-- Cube for Interaction -->
+    <a-box position="0 1.5 -5" rotation="0 45 0" color="#FF4500" shadow></a-box>
+
+    <!-- Camera -->
+    <a-entity camera look-controls wasd-controls></a-entity>
+
+    <!-- Instructions -->
+    <a-text
+      position="-1 2 -5"
+      rotation="0 0 0"
+      align="center"
+      width="6"
+      value="Welcome to VR OCD Therapy! Interact with the cube by looking at it and using the controls. Change its color to relieve stress."></a-text>
+  </a-scene>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add your interaction logic here using JavaScript
+      // For example, you can add event listeners to the cube for user interaction
+      var cube = document.querySelector('a-box');
+
+      cube.addEventListener('mouseenter', function () {
+        cube.setAttribute('color', '#FFD700'); // Change color on hover
+      });
+
+      cube.addEventListener('mouseleave', function () {
+        cube.setAttribute('color', '#FF4500'); // Change back to original color on hover out
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Quell Game</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Quell - The Word Guessing Game</h1>
+        <p>Try to guess the word related to calmness and peace.</p>
+        <div id="word-display"></div>
+        <p id="attempts">Attempts remaining: <span id="attempts-count"></span></p>
+        <input type="text" id="guess-input" maxlength="15" placeholder="Enter letters">
+        <button onclick="makeGuess()">Guess</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        text-align: center;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+
+    h1 {
+        color: #4CAF50;
+    }
+
+    p {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    #word-display {
+        margin: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    #attempts {
+        font-size: 18px;
+        color: #333;
+    }
+
+    #guess-input {
+        width: 80%;
+        height: 30px;
+        margin-top: 10px;
+        text-align: center;
+        font-size: 16px;
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+        outline: none;
+    }
+
+    button {
+        padding: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<script>
+    let wordToGuess = "";
+let guessedLetters = [];
+let attempts = 6;
+
+function chooseWord() {
+    const words = ["peace", "calm", "relax", "serenity", "breathe"];
+    return words[Math.floor(Math.random() * words.length)];
+}
+
+function displayWord() {
+    const wordDisplay = document.getElementById("word-display");
+    wordDisplay.innerHTML = "";
+
+    for (let letter of wordToGuess) {
+        if (guessedLetters.includes(letter)) {
+            wordDisplay.innerHTML += letter + " ";
+        } else {
+            wordDisplay.innerHTML += "_ ";
+        }
+    }
+}
+
+function updateAttempts() {
+    document.getElementById("attempts-count").innerText = attempts;
+}
+
+function makeGuess() {
+    const guessInput = document.getElementById("guess-input");
+    const guess = guessInput.value.toLowerCase();
+
+    if (guess.length >= 1 && guess.match(/[a-z]/i)) {
+        if (guessedLetters.includes(guess)) {
+            alert("You already guessed that letter. Try again.");
+        } else if (wordToGuess.includes(guess)) {
+            guessedLetters.push(guess);
+            displayWord();
+        } else {
+            attempts--;
+            updateAttempts();
+            alert("Incorrect guess. Try again.");
+        }
+
+        if (!displayWord().includes("_")) {
+            alert("Congratulations! You guessed the word!");
+            resetGame();
+        } else if (attempts === 0) {
+            alert("Sorry, you're out of attempts. The word was: " + wordToGuess);
+            resetGame();
+        }
+
+    } else {
+        alert("Invalid input. Please enter at least one letter.");
+    }
+
+    guessInput.value = "";
+}
+
+function resetGame() {
+    wordToGuess = chooseWord();
+    guessedLetters = [];
+    attempts = 6;
+    displayWord();
+    updateAttempts();
+}
+</script>

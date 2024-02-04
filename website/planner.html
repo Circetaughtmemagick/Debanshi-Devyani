@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Turtle Planner</title>
+</head>
+<body>
+  <div id="planner">
+    <h1>Task Planner</h1>
+    <div id="tasks">
+      <!-- Add your tasks with checkboxes and entries here -->
+      <div id="task-1" class="task">
+        <label><input type="checkbox" class="task-checkbox"> Task 1</label>
+        <input type="text" class="task-entry" placeholder="Enter task entry">
+        <button onclick="addTask()">+</button>
+      </div>
+    </div>
+    <button onclick="moveTurtle()">Move Turtle</button>
+    <div id="turtle"></div>
+    <div id="finish-line" class="finish-line"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+#planner {
+  text-align: center;
+}
+
+#tasks {
+  margin: 20px 0;
+  background-color: #ffb6c1; /* Baby Pink background color */
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.task {
+  margin-bottom: 10px;
+}
+
+.task-checkbox {
+  margin-right: 5px;
+}
+
+.task-entry {
+  margin-left: 10px;
+}
+
+#turtle {
+  width: 50px;
+  height: 50px;
+  background-image: url('https://i.imgur.com/XaYxjjW.png'); /* Replace with the correct path or URL */
+  background-size: cover;
+  position: relative;
+  margin-top: 20px;
+  transition: left 0.5s ease-in-out;
+}
+
+.finish-line {
+  background-color: red;
+  height: 10px;
+  width: 100%;
+  margin-top: 20px;
+  position: absolute;
+  display: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Uncheck the task checkbox at the beginning
+  const checkbox = document.querySelector('.task-checkbox');
+  checkbox.checked = false;
+});
+
+function moveTurtle() {
+  const checkbox = document.querySelector('.task-checkbox');
+  const turtle = document.getElementById('turtle');
+  const finishLine = document.getElementById('finish-line');
+
+  checkbox.checked = true; // Check the checkbox
+
+  const turtlePosition = 100;
+  turtle.style.left = `${turtlePosition}%`;
+
+  if (turtlePosition >= 100) {
+    finishLine.style.display = 'block';
+    alert('Congratulations! All tasks completed!');
+  }
+}
+
+function addTask() {
+  const tasksContainer = document.getElementById('tasks');
+  const taskCount = document.querySelectorAll('.task').length;
+
+  if (taskCount < 10) {
+    const newTaskNumber = taskCount + 1;
+
+    const newTaskDiv = document.createElement('div');
+    newTaskDiv.id = `task-${newTaskNumber}`;
+    newTaskDiv.classList.add('task');
+
+    newTaskDiv.innerHTML = `
+      <label><input type="checkbox" class="task-checkbox"> Task ${newTaskNumber}</label>
+      <input type="text" class="task-entry" placeholder="Enter task entry">
+      <button onclick="addTask()">+</button>
+    `;
+
+    tasksContainer.appendChild(newTaskDiv);
+  }
+}
+</script>
+
+
+

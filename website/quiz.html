@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Disorder Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main>
+        <div id="quiz-container">
+            <h2>Test Your Knowledge on Mental Health Disorders</h2>
+            <div id="question-container">
+                <p id="question">Loading question...</p>
+            </div>
+            <div id="options-container">
+                <button onclick="nextQuestion()">Next</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </main>
+
+    <script src="quiz.js"></script>
+</body>
+</html>
+<style>
+    /* Add your styles here */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#quiz-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 600px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#question-container {
+    margin-bottom: 20px;
+}
+
+#options-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    background-color: #4285f4;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+button:hover {
+    background-color: #3367d6;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+</style>
+<script>
+    const questions = [
+    {
+        question: "Persistent sadness, loss of interest, and feelings of hopelessness are common symptoms. Which mental health disorder is characterized by these symptoms?",
+        options: ["Schizophrenia", "Bipolar Disorder", "Major Depressive Disorder", "Generalized Anxiety Disorder"],
+        correctAnswer: "Major Depressive Disorder"
+    },
+    {
+        question: "Intense fear and worry about everyday situations, often accompanied by physical symptoms such as sweating and rapid heartbeat. What disorder is this?",
+        options: ["Social Anxiety Disorder", "Panic Disorder", "Obsessive-Compulsive Disorder", "Post-Traumatic Stress Disorder"],
+        correctAnswer: "Generalized Anxiety Disorder"
+    },
+    // Add more questions here...
+    // ...
+
+    {
+        question: "Excessive preoccupation with cleanliness and compulsive performance of rituals for cleanliness. What disorder is this?",
+        options: ["Bipolar Disorder", "Obsessive-Compulsive Disorder", "Schizophrenia", "Major Depressive Disorder"],
+        correctAnswer: "Obsessive-Compulsive Disorder"
+    },
+    {
+        question: "Sudden and intense feelings of fear, often accompanied by physical symptoms like heart palpitations and shortness of breath. What disorder is this?",
+        options: ["Panic Disorder", "Social Anxiety Disorder", "Generalized Anxiety Disorder", "Post-Traumatic Stress Disorder"],
+        correctAnswer: "Panic Disorder"
+    },
+    // ...
+
+    {
+        question: "Intrusive and distressing thoughts and repetitive behaviors or mental acts. What disorder is this?",
+        options: ["Bipolar Disorder", "Post-Traumatic Stress Disorder", "Schizophrenia", "Obsessive-Compulsive Disorder"],
+        correctAnswer: "Obsessive-Compulsive Disorder"
+    },
+    {
+        question: "Difficulty concentrating, making decisions, and experiencing memory lapses. Which disorder is characterized by these symptoms?",
+        options: ["Major Depressive Disorder", "Generalized Anxiety Disorder", "Bipolar Disorder", "Post-Traumatic Stress Disorder"],
+        correctAnswer: "Major Depressive Disorder"
+    },
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+const questionsAsked = [];
+
+document.addEventListener('DOMContentLoaded', function () {
+    startQuiz();
+});
+
+function startQuiz() {
+    currentQuestionIndex = 0;
+    score = 0;
+    questionsAsked.length = 0; // Clear the list of asked questions
+    askRandomQuestions();
+}
+
+function askRandomQuestions() {
+    if (currentQuestionIndex < 5) { // Ask 5 random questions
+        const randomIndex = getRandomQuestionIndex();
+
+        if (!questionsAsked.includes(randomIndex)) {
+            questionsAsked.push(randomIndex);
+            displayQuestion(randomIndex);
+        } else {
+            askRandomQuestions(); // Ask another question if this one was already asked
+        }
+    } else {
+        displayResult();
+    }
+}
+
+function getRandomQuestionIndex() {
+    return Math.floor(Math.random() * questions.length);
+}
+
+function displayQuestion(index) {
+    const questionContainer = document.getElementById('question');
+    const optionsContainer = document.getElementById('options-container');
+    const resultContainer = document.getElementById('result');
+
+    const currentQuestion = questions[index];
+
+    questionContainer.textContent = currentQuestion.question;
+
+    optionsContainer.innerHTML = "";
+    currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.addEventListener('click', () => checkAnswer(index));
+        optionsContainer.appendChild(button);
+    });
+
+    resultContainer.textContent = "";
+}
+
+function checkAnswer(selectedIndex) {
+    const currentQuestion = questions[questionsAsked[currentQuestionIndex]];
+
+    if (currentQuestion.options[selectedIndex] === currentQuestion.correctAnswer) {
+        score++;
+    }
+
+    currentQuestionIndex++;
+    askRandomQuestions();
+}
+
+function displayResult() {
+    const resultContainer = document.getElementById('result');
+    resultContainer.textContent = `You scored ${score} out of 5 questions.`;
+}
+
+</script>

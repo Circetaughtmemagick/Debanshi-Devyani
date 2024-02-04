@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>MindShift Game</title>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Welcome to MindShift - A game for PTSD therapy</h1>
+        <p id="instructions">The goal is to improve your resilience and cope with stress.</p>
+        <div id="options-container">
+            <button onclick="takeADeepBreath()">Take a Deep Breath</button>
+            <button onclick="recallPositiveMemory()">Recall a Positive Memory</button>
+            <button onclick="solvePuzzle()">Solve a Puzzle</button>
+            <button onclick="exitGame()">Exit Game</button>
+        </div>
+        <div id="score-container">
+            <p>Current Score: <span id="score">0</span></p>
+            <p>Stress Level: <span id="stress-level">0</span></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#game-container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+    font-size: 16px;
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+#score-container {
+    margin-top: 20px;
+}
+</style>
+<script>
+    let score = 0;
+let stressLevel = 0;
+
+function displayMessage(message) {
+    document.getElementById('instructions').innerText = message;
+}
+
+function updateScore() {
+    document.getElementById('score').innerText = score;
+}
+
+function updateStressLevel() {
+    document.getElementById('stress-level').innerText = stressLevel;
+}
+
+function takeADeepBreath() {
+    displayMessage("Take a deep breath and exhale slowly.");
+    stressLevel -= 1;
+    score++;
+    updateScore();
+    updateStressLevel();
+}
+
+function recallPositiveMemory() {
+    displayMessage("Think about a positive and happy memory.");
+    stressLevel -= 2;
+    score++;
+    updateScore();
+    updateStressLevel();
+}
+
+function solvePuzzle() {
+    let num1 = Math.floor(Math.random() * 10) + 1;
+    let num2 = Math.floor(Math.random() * 10) + 1;
+    let correctAnswer = num1 + num2;
+
+    let userAnswer = prompt(`Solve the puzzle: ${num1} + ${num2}`);
+
+    if (userAnswer === null) {
+        displayMessage("You canceled the puzzle. Keep going!");
+        return;
+    }
+
+    if (parseInt(userAnswer) === correctAnswer) {
+        displayMessage("Correct! Well done.");
+        stressLevel -= 3;
+        score++;
+    } else {
+        displayMessage(`Sorry, the correct answer is ${correctAnswer}. Keep trying.`);
+    }
+
+    updateScore();
+    updateStressLevel();
+}
+
+function exitGame() {
+    displayMessage("Exiting the game. Thank you for playing!");
+    // Additional actions or cleanup if needed
+}
+
+</script>

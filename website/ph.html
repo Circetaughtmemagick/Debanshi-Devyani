@@ -1,0 +1,140 @@
+<!-- HTML (index.html) -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Memory Game</title>
+</head>
+<body>
+    <div class="game-container">
+        <div class="grid" id="grid"></div>
+        <button onclick="startGame()">Start Game</button>
+        <p id="message"></p>
+        <p id="score">Score: 0</p>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    /* CSS (style.css) */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.game-container {
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.block {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.block.grey {
+    background-color: grey;
+}
+
+</style>
+<script>
+    // JavaScript (script.js)
+
+let gridElement = document.getElementById('grid');
+let messageElement = document.getElementById('message');
+let scoreElement = document.getElementById('score');
+let score = 0;
+let gridSize = 3;
+let greyBlocks = [];
+let guessingMode = false;
+
+function startGame() {
+    messageElement.textContent = '';
+    score = 0;
+    updateScore();
+    generateGrid();
+    setTimeout(() => {
+        hideGreyBlocks();
+    }, 8000);
+}
+
+function generateGrid() {
+    gridElement.innerHTML = '';
+    greyBlocks = [];
+    guessingMode = true;
+
+    for (let i = 0; i < gridSize * gridSize; i++) {
+        const block = document.createElement('div');
+        block.className = 'block';
+        block.dataset.index = i;
+        block.addEventListener('click', checkBlock);
+        gridElement.appendChild(block);
+
+        if (Math.random() < 0.3) {
+            block.classList.add('grey');
+            greyBlocks.push(i);
+        }
+    }
+
+    setTimeout(() => {
+        hideGreyBlocks();
+        guessingMode = false;
+    }, 8000);
+}
+
+function hideGreyBlocks() {
+    greyBlocks.forEach(index => {
+        const block = document.querySelector(`.block[data-index="${index}"]`);
+        if (block) {
+            block.classList.remove('grey');
+        }
+    });
+    messageElement.textContent = 'Guess where the grey blocks were!';
+}
+
+function checkBlock(event) {
+    if (!guessingMode) {
+        return; // Ignore clicks when not in guessing mode
+    }
+
+    const clickedIndex = parseInt(event.target.dataset.index);
+    if (greyBlocks.includes(clickedIndex)) {
+        messageElement.textContent = 'Correct!';
+        score++;
+        updateScore();
+        gridSize++;
+        startGame();
+    } else {
+        messageElement.textContent = 'Wrong! Game Over.';
+        gridSize = 3;
+        startGame();
+    }
+}
+
+function updateScore() {
+    scoreElement.textContent = `Score: ${score}`;
+}
+
+// Initial game setup
+startGame();
+
+</script>

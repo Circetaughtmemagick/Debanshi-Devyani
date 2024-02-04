@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login Form</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email">
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+
+        <label for="diagnosis">Diagnosis:</label>
+        <select id="diagnosis">
+            <option value="ocd">OCD</option>
+            <option value="ptsd">PTSD</option>
+            <option value="depression">Depression and Anxiety</option>
+            <option value="adhd">ADHD</option>
+            <option value="dementia">Dementia</option>
+            <option value="no-diagnosis">No Diagnosis</option>
+        </select>
+
+        <button onclick="login()">Login</button>
+    </div>
+
+    <script>
+        function login() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var diagnosis = document.getElementById("diagnosis").value;
+            // Create an object to store user data
+            var userData = {
+                name: name,
+                email: email,
+                phone: phone,
+                diagnosis: diagnosis
+            };
+
+            // Convert the object to a JSON string and store it in local storage
+            localStorage.setItem('userData', JSON.stringify(userData));
+
+            alert(`Logged in successfully!\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nDiagnosis: ${diagnosis}`);
+        }
+    </script>
+</body>
+</html>

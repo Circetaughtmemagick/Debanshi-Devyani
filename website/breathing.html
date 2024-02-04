@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #c9e3ca; /* Light Green Background */
+    }
+
+    #breath-container {
+      text-align: center;
+      padding: 20px;
+      background-color: #f5f5f5; /* Light Gray Container Background */
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #timer {
+      font-size: 3em;
+      margin: 20px;
+      color: #333; /* Dark Text Color */
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1.4em;
+      background-color: #4285f4; /* Blue Button Color */
+      color: #FFF; /* White Text Color */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #3367d6; /* Darker Blue Button Color on Hover */
+    }
+  </style>
+  <title>Breathing Exercise</title>
+</head>
+<body>
+
+<div id="breath-container">
+  <h1 id="breath-phase" style="color: #d9534f;">Inhale</h1>
+  <div id="timer">10</div>
+  <button onclick="startHold()">Hold</button>
+</div>
+
+<script>
+  let timerElement = document.getElementById('timer');
+  let breathPhaseElement = document.getElementById('breath-phase');
+  let timer;
+  let seconds = 10; // Initial time in seconds
+
+  function startTimer(callback) {
+    timer = setInterval(function () {
+      seconds--;
+      timerElement.textContent = seconds;
+
+      if (seconds <= 0) {
+        clearInterval(timer);
+        callback();
+      }
+    }, 1000);
+  }
+
+  function startHold() {
+    breathPhaseElement.textContent = 'Hold';
+    setTimeout(function () {
+      clearInterval(timer);
+      startExhale();
+    }, 10000); // Hold for 10 seconds
+  }
+
+  function startExhale() {
+    seconds = 10; // Reset the timer for exhaling
+    breathPhaseElement.textContent = 'Exhale';
+    timerElement.textContent = seconds;
+    startTimer(startInhale); // Start inhale after exhale
+  }
+
+  function startInhale() {
+    seconds = 10; // Reset the timer for inhaling
+    breathPhaseElement.textContent = 'Inhale';
+    timerElement.textContent = seconds;
+    startTimer(startHold);
+  }
+
+  // Initial kickstart
+  startTimer(startHold);
+</script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Reminder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #reminder-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input, button {
+            margin: 10px;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="reminder-container">
+        <h2>Medicine Reminder</h2>
+
+        <label for="medicineName">Medicine Name:</label>
+        <input type="text" id="medicineName" placeholder="Enter medicine name">
+
+        <label for="reminderTime">Set Reminder Time:</label>
+        <input type="time" id="reminderTime">
+
+        <button onclick="setReminder()">Set Reminder</button>
+    </div>
+
+    <script>
+        
+    function setReminder() {
+        const medicineName = document.getElementById('medicineName').value;
+        const reminderTime = document.getElementById('reminderTime').value;
+
+        if (medicineName && reminderTime) {
+            const now = new Date();
+            const reminderDateTime = new Date(`${now.toDateString()} ${reminderTime}`); // Use backticks
+
+            const timeDiff = reminderDateTime - now;
+
+            if (timeDiff > 0) {
+                setTimeout(() => {
+                    alert(`Reminder: It's time to take ${medicineName}`); // Use backticks
+                }, timeDiff);
+            } else {
+                alert('Please select a future time for the reminder.');
+            }
+        } else {
+            alert('Please enter both medicine name and reminder time.');
+        }
+    }
+</script>
+
+    
+</body>
+</html>
